@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.squareup.okhttp.Call;
+import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -33,52 +34,45 @@ import de.schildbach.wallet.Constants;
 /**
  * @author Andreas Schildbach
  */
-public abstract class HttpGetThread extends Thread
-{
-	private final String url;
-	@Nullable
-	private final String userAgent;
+public abstract class HttpGetThread extends Thread {
+    private final HttpUrl url;
+    @Nullable
+    private final String userAgent;
 
-	private static final Logger log = LoggerFactory.getLogger(HttpGetThread.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpGetThread.class);
 
-	public HttpGetThread(final String url, @Nullable final String userAgent)
-	{
-		this.url = url;
-		this.userAgent = userAgent;
-	}
+    public HttpGetThread(final HttpUrl url, @Nullable final String userAgent) {
+        this.url = url;
+        this.userAgent = userAgent;
+    }
 
-	@Override
-	public void run()
-	{
-		log.debug("querying \"" + url + "\"...");
+    @Override
+    public void run() {
+        log.debug("querying \"{}\"...", url);
 
-		final Request.Builder request = new Request.Builder();
-		request.url(url);
-		request.header("Accept-Charset", "utf-8");
-		if (userAgent != null)
-			request.header("User-Agent", userAgent);
+        final Request.Builder request = new Request.Builder();
+        request.url(url);
+        request.header("Accept-Charset", "utf-8");
+        if (userAgent != null)
+            request.header("User-Agent", userAgent);
 
-		final Call call = Constants.HTTP_CLIENT.newCall(request.build());
-		try
-		{
-			final Response response = call.execute();
-			if (response.isSuccessful())
-			{
-				final long serverTime = response.headers().getDate("Date").getTime();
-				final BufferedReader reader = new BufferedReader(response.body().charStream());
-				final String line = reader.readLine().trim();
-				reader.close();
+        final Call call = Constants.HTTP_CLIENT.newCall(request.build());
+        try {
+            final Response response = call.execute();
+            if (response.isSuccessful()) {
+                final long serverTime = response.headers().getDate("Date").getTime();
+                final BufferedReader reader = new BufferedReader(response.body().charStream());
+                final String line = reader.readLine().trim();
+                reader.close();
 
-				handleLine(line, serverTime);
-			}
-		}
-		catch (final Exception x)
-		{
-			handleException(x);
-		}
-	}
+                handleLine(line, serverTime);
+            }
+        } catch (final Exception x) {
+            handleException(x);
+        }
+    }
 
-	protected abstract void handleLine(String line, long serverTime);
+    protected abstract void handleLine(String line, long serverTime);
 
-	protected abstract void handleException(Exception x);
+    protected abstract void handleException(Exception x);
 }

@@ -1,3 +1,23 @@
+v5.04
+
+* Switch exchange rates feed to BitcoinAverage API v2.
+* Update translations from Transifex.
+* Minor bugfix.
+
+v5.03
+
+* Work around broken exchange rate.
+
+v5.02
+
+* Dynamic network fee. This will help dealing with an overloaded Bitcoin network.
+
+v5.01
+
+* Fix background color in recent tasks list.
+* The testnet version doesn't make files world readable any more.
+* Adjust the normal fee category.
+
 v5.0
 
 * The app now requires Android 4.1 (Jelly Bean) or higher. This makes UI development easier
