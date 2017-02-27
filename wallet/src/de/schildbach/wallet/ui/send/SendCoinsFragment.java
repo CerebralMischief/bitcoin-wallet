@@ -22,7 +22,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 
@@ -952,7 +951,7 @@ public final class SendCoinsFragment extends Fragment {
         privateKeyBadPasswordView.setVisibility(View.INVISIBLE);
 
         if (wallet.isEncrypted()) {
-            new DeriveKeyTask(backgroundHandler) {
+            new DeriveKeyTask(backgroundHandler, application.scryptIterationsTarget()) {
                 @Override
                 protected void onSuccess(final KeyParameter encryptionKey, final boolean wasChanged) {
                     if (wasChanged)
@@ -1282,8 +1281,14 @@ public final class SendCoinsFragment extends Fragment {
                 } else if (dryrunTransaction != null && dryrunTransaction.getFee() != null) {
                     hintView.setTextColor(getResources().getColor(R.color.fg_insignificant));
                     hintView.setVisibility(View.VISIBLE);
-                    hintView.setText(getString(R.string.send_coins_fragment_hint_fee,
-                            btcFormat.format(dryrunTransaction.getFee())));
+                    final int hintResId;
+                    if (feeCategory == FeeCategory.ECONOMIC)
+                        hintResId = R.string.send_coins_fragment_hint_fee_economic;
+                    else if (feeCategory == FeeCategory.PRIORITY)
+                        hintResId = R.string.send_coins_fragment_hint_fee_priority;
+                    else
+                        hintResId = R.string.send_coins_fragment_hint_fee;
+                    hintView.setText(getString(hintResId, btcFormat.format(dryrunTransaction.getFee())));
                 } else if (paymentIntent.mayEditAddress() && validatedAddress != null
                         && wallet.isPubKeyHashMine(validatedAddress.address.getHash160())) {
                     hintView.setTextColor(getResources().getColor(R.color.fg_insignificant));

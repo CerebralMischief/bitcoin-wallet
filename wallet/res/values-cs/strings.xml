@@ -23,7 +23,6 @@
   <string name="exchange_rates_fragment_balance">bilance</string>
   <string name="exchange_rates_fragment_source">Cena z %s</string>
   <string name="exchange_rates_options_search">Vyhledat směnný kurz</string>
-  <string name="exchange_rates_context_set_as_default_title">Nastavit jako výchozí cizí měnu</string>
   <string name="wallet_transactions_fragment_empty_text_received">Zatím nebyly žádné bitcoiny obdrženy.</string>
   <string name="wallet_transactions_fragment_empty_text_sent">Zatím nebyly žádné bitcoiny odeslány.</string>
   <string name="wallet_transactions_fragment_empty_text_howto">Jak získat Bitcoiny?\n\nSměnou za klasické peníze,\nprodejem zboží nebo služeb\nnebo vyděláním prací.</string>
@@ -93,7 +92,9 @@
   <string name="send_coins_options_fee_category_priority">Priorita</string>
   <string name="send_coins_options_empty">Vyprázdnit peněženku</string>
   <string name="raise_fee_dialog_title">Navýšit poplatek</string>
-  <string name="raise_fee_dialog_message">Chcete navýšit poplatek této platby o %s? Potvrzení platby bude provedeno rychleji.</string>
+  <string name="raise_fee_dialog_message">Chcete navýšit poplatek síti pro tuto platbu o %s? To urychlí potvrzení platby.</string>
+  <string name="raise_fee_dialog_determining_fee">Určování poplatku sítě…</string>
+  <string name="raise_fee_dialog_cant_raise">Poplatek síti pro tuto platbu nelze navýšit.</string>
   <string name="raise_fee_dialog_state_decrypting">Dešifrování…</string>
   <string name="raise_fee_dialog_state_done">Hotovo.</string>
   <string name="raise_fee_dialog_button_raise">Navýšit</string>
@@ -258,7 +259,6 @@
   <string name="preferences_remind_balance_title">Připomínka bilance</string>
   <string name="preferences_remind_balance_summary">Upozornění po několika týdnech nepoužití aplikace, pokud jsou v peněžence stále peníze.</string>
   <string name="preferences_report_issue_title">Nahlásit problém</string>
-  <string name="preferences_report_issue_summary">Posbírat informace o problému a odeslat je emailem vývojářům</string>
   <string name="preferences_initiate_reset_title">Obnovit řětězec bloků</string>
   <string name="preferences_initiate_reset_summary">Obnovit blokchain, transakce a stav peněženky. Nové nahrání bude chvíli trvat.</string>
   <string name="preferences_initiate_reset_dialog_message">Opravdu chcete obnovit a znovu nahrát blokchain?\n\nToto dočasně skryje stav peněženky a odstraní transakce. Obojí bude obnoveno, jakmile se blokchain synchronizuje.</string>

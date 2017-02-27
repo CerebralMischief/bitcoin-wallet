@@ -23,7 +23,6 @@
   <string name="exchange_rates_fragment_balance">saldo</string>
   <string name="exchange_rates_fragment_source">Prezzo da %s</string>
   <string name="exchange_rates_options_search">Ricerca tasso di cambio</string>
-  <string name="exchange_rates_context_set_as_default_title">Imposta come valuta straniera predefinita</string>
   <string name="wallet_transactions_fragment_empty_text_received">Nessun Bitcoin ancora ricevuto</string>
   <string name="wallet_transactions_fragment_empty_text_sent">Nessun Bitcoin ancora inviato</string>
   <string name="wallet_transactions_fragment_empty_text_howto">Come ottenere Bitcoins?\n\nBarattali per soldi reali,\nvendi beni o servizi oppure\nricavali lavorando.</string>
@@ -93,7 +92,9 @@
   <string name="send_coins_options_fee_category_priority">Prioritaria</string>
   <string name="send_coins_options_empty">Portafoglio vuoto</string>
   <string name="raise_fee_dialog_title">Aumenta le commissioni di rete</string>
-  <string name="raise_fee_dialog_message">Vuoi aumentare l\'imposta di questo pagamento in %s? Renderà la conferma del pagamento più rapida.</string>
+  <string name="raise_fee_dialog_message">Vuoi aumentare le commissioni di rete di questo pagamento di %s? Renderà la conferma del pagamento più veloce.</string>
+  <string name="raise_fee_dialog_determining_fee">Determinazione commissioni rete…</string>
+  <string name="raise_fee_dialog_cant_raise">Le commissioni di rete di questo pagamento non possono essere alzate.</string>
   <string name="raise_fee_dialog_state_decrypting">Sto decriptando…</string>
   <string name="raise_fee_dialog_state_done">Fatto.</string>
   <string name="raise_fee_dialog_button_raise">Aumenta</string>
@@ -258,7 +259,6 @@
   <string name="preferences_remind_balance_title">Promemoria saldo.</string>
   <string name="preferences_remind_balance_summary">Dopo un paio di settimane in disuso, l\'app notificherà se ci sono ancora monete nel portafoglio.</string>
   <string name="preferences_report_issue_title">Segnala un problema</string>
-  <string name="preferences_report_issue_summary">Colleziona informazioni sul tuo problema e invia tramite email la tua segnalazione agli sviluppatori.</string>
   <string name="preferences_initiate_reset_title">Reinizializza il blockchain</string>
   <string name="preferences_initiate_reset_summary">Reinizializza il blockchain, transazioni e conto del portafoglio. Il processo impiegherà un po\'.</string>
   <string name="preferences_initiate_reset_dialog_message">Vorresti riavviare e ripetere il blockchain?\n\nQuesto nasconderà temporaneamente il tuo bilancio dal portafoglio, e rimuoverà le transazioni. Entrambi saranno recuperati con la sincronizzazione del blockchain.</string>

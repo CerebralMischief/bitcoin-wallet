@@ -24,7 +24,6 @@
     <string name="exchange_rates_fragment_balance">Guthaben</string>
     <string name="exchange_rates_fragment_source">Kurs von %s</string>
     <string name="exchange_rates_options_search">Wechselkurs suchen</string>
-    <string name="exchange_rates_context_set_as_default_title">Als Standard-Fremdwährung setzen</string>
     <string name="wallet_transactions_fragment_empty_text_received">Noch keine Bitcoins empfangen.</string>
     <string name="wallet_transactions_fragment_empty_text_sent">Noch keine Bitcoins gesendet.</string>
     <string name="wallet_transactions_fragment_empty_text_howto">Wie komme ich an Bitcoins?\n\nHandle gegen traditionelles Geld,\nverkaufe Güter oder Dienstleistungen oder\nverdiene durch Arbeit.</string>
@@ -69,7 +68,9 @@
     <string name="send_coins_fragment_receiving_address_complex">komplexe\nAdresse</string>
     <string name="send_coins_fragment_pending">(%s warten auf Bestätigung)</string>
     <string name="send_coins_fragment_amount_label">Betrag</string>
-    <string name="send_coins_fragment_hint_fee">Eine geringe Netzwerk-Gebühr von %s wird gezahlt.</string>
+    <string name="send_coins_fragment_hint_fee_economic">Es wird eine günstige Gebühr von %s gezahlt. Nutze \'Kostengünstig\' nur, wenn dir die Zeit zur Bestätigung egal ist.</string>
+    <string name="send_coins_fragment_hint_fee">Es wird eine Netzwerk-Gebühr von %s gezahlt.</string>
+    <string name="send_coins_fragment_hint_fee_priority">Es wird eine Express-Gebühr von %s gezahlt. Wenn dir eine geringe Gebühr wichtig ist, dann nutze \'Express\' nur wenn du eine schnelle Bestätigung benötigst.</string>
     <string name="send_coins_fragment_hint_dusty_send">Der Betrag ist zu klein zum Senden.</string>
     <string name="send_coins_fragment_hint_insufficient_money">Nicht genug verfügbare Bitcoins. Dir fehlen %s.</string>
     <string name="send_coins_fragment_hint_empty_wallet_failed">Die Summe an winzigen Zahlungen in deiner Wallet ist zu klein, um verschickt zu werden.</string>
@@ -263,10 +264,9 @@
     <string name="preferences_remind_balance_title">Erinnerung an Guthaben</string>
     <string name="preferences_remind_balance_summary">Nach einigen Wochen Nicht-Nutzung wird die App daran erinnern wenn sich noch Bitcoins in der Wallet befinden.</string>
     <string name="preferences_report_issue_title">Problem melden</string>
-    <string name="preferences_report_issue_summary">Sammelt Informationen über dein Problem und schickt den Bericht per e-Mail an die Entwickler.</string>
     <string name="preferences_initiate_reset_title">Blockchain zurücksetzen</string>
-    <string name="preferences_initiate_reset_summary">Blockchain, Transaktionen und Guthaben werden zurückgesetzt. Das Wiedereinspielen wird eine Weile dauern.</string>
-    <string name="preferences_initiate_reset_dialog_message">Möchtest du die Blockchain zurücksetzen und wiedereinspielen?\n\nDies wird verübergehend dein Guthaben ausblenden und deine Transaktionen leeren. Beides wird sich während des Vorgangs erholen.</string>
+    <string name="preferences_initiate_reset_summary">Blockchain, Transaktionen und Guthaben werden zurückgesetzt. Das Wiedereinspielen wird eine Weile dauern, also mach das nur wenn du weisst warum.</string>
+    <string name="preferences_initiate_reset_dialog_message">Möchtest du die Blockchain zurücksetzen und wiedereinspielen?\n\nDies wird verübergehend dein Guthaben ausblenden und deine Transaktionen leeren. Beides wird sich während des Vorgangs erholen. Achte auf eine zuverlässige Internet-Verbindung.</string>
     <string name="preferences_initiate_reset_dialog_positive">Zurücksetzen</string>
     <string name="preferences_extended_public_key_title">Xpub anzeigen</string>
     <string name="preferences_extended_public_key_summary">Zeigt den Extended Public Key deiner Wallet, so daß er in andere Apps oder Dienste importiert werden kann. Pass aber auf, denn das wird deine finanziellen Umstände gegenüber der App offenlegen.</string>
@@ -275,6 +275,7 @@
     <string name="extended_public_key_fragment_share">Xpub teilen…</string>
     <string name="report_issue_dialog_title_issue">Problem melden</string>
     <string name="report_issue_dialog_title_crash">Absturz erkannt</string>
+    <string name="report_issue_dialog_title_transaction">Problem mit markierter Zahlung melden</string>
     <string name="report_issue_dialog_message_issue">Bitte beschreibe dein Problem genau, so daß es nachvollzogen werden kann.</string>
     <string name="report_issue_dialog_message_crash">Möchtest du einen Fehlerbericht senden, um bei der Fehlerbehebung zu helfen?</string>
     <string name="report_issue_dialog_description">Problembeschreibung</string>
@@ -294,10 +295,12 @@
     <string name="about_credits_bitcoinj_title">bitcoinj %s, eine Bitcoin-Protokoll-Implementierung</string>
     <string name="about_credits_zxing_title">ZXing, eine QR-Code-Bibliothek</string>
     <string name="about_credits_scrypt_title">Scrypt, implementiert von Will Glozer und Colin Percival</string>
-    <string name="about_community_googleplus_title">Google+ Community</string>
-    <string name="about_community_googleplus_summary">Diskussionen über die App</string>
     <string name="about_market_app_title">Eintrag bei Google Play</string>
     <string name="about_market_app_summary">Rezensionen und Bewertungen</string>
+    <string name="about_faq_title">FAQ</string>
+    <string name="about_faq_summary">Häufig gestellte Fragen über die App</string>
+    <string name="about_community_googleplus_title">Google+ Community</string>
+    <string name="about_community_googleplus_summary">Diskussionen über die App</string>
     <string name="notification_coins_received_msg">%s empfangen</string>
     <string name="notification_peers_connected_msg">%d Peers verbunden</string>
     <string name="notification_inactivity_title">Du hast noch Bitcoins auf diesem Gerät!</string>

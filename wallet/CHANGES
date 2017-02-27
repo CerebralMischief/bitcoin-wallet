@@ -1,3 +1,51 @@
+v5.14
+
+* Update translations from Transifex.
+* Bugfix.
+
+v5.13
+
+* Add option to report issue with selected payment.
+* Add blockchain.info to block explorers.
+* Minor bugfix.
+
+v5.12
+
+* Query a set of Electrum servers to swipe paper wallets. Biteasy can't be used any more,
+  because they are closing down.
+
+v5.11
+
+* Update translations from Transifex.
+* Remove biteasy from block explorers because they are closing down.
+* Minor bugfixes.
+
+v5.10
+
+* Minor bugfix.
+
+v5.09
+
+* Material design for Android 5.0 (Lollipop) and above!
+
+v5.08
+
+* Minor bugfix.
+
+v5.07
+
+* For Android 7.1 (Nougat) and above, support the new app shortcuts.
+
+v5.06
+
+* Minor bugfix.
+
+v5.05
+
+* For Android 6.0 (Marshmellow) and above, bring back the ability to receive payments via
+  Bluetooth. This means your customers can pay without being connected to the internet!
+* Nicely animated appearance of main screen on phones.
+
 v5.04
 
 * Switch exchange rates feed to BitcoinAverage API v2.

@@ -99,6 +99,16 @@ public abstract class ReportIssueDialogBuilder extends DialogBuilder implements 
         text.append(viewDescription.getText()).append('\n');
 
         try {
+            final CharSequence contextualData = collectContextualData();
+            if (contextualData != null) {
+                text.append("\n\n\n=== contextual data ===\n\n");
+                text.append(contextualData);
+            }
+        } catch (final IOException x) {
+            text.append(x.toString()).append('\n');
+        }
+
+        try {
             text.append("\n\n\n=== application info ===\n\n");
 
             final CharSequence applicationInfo = collectApplicationInfo();
@@ -242,14 +252,27 @@ public abstract class ReportIssueDialogBuilder extends DialogBuilder implements 
     protected abstract CharSequence subject();
 
     @Nullable
-    protected abstract CharSequence collectApplicationInfo() throws IOException;
+    protected CharSequence collectApplicationInfo() throws IOException {
+        return null;
+    }
 
     @Nullable
-    protected abstract CharSequence collectStackTrace() throws IOException;
+    protected CharSequence collectStackTrace() throws IOException {
+        return null;
+    }
 
     @Nullable
-    protected abstract CharSequence collectDeviceInfo() throws IOException;
+    protected CharSequence collectDeviceInfo() throws IOException {
+        return null;
+    }
 
     @Nullable
-    protected abstract CharSequence collectWalletDump() throws IOException;
+    protected CharSequence collectContextualData() throws IOException {
+        return null;
+    }
+
+    @Nullable
+    protected CharSequence collectWalletDump() throws IOException {
+        return null;
+    }
 }

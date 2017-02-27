@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="de.schildbach.wallet_test"
     android:installLocation="internalOnly"
-    android:versionCode="284"
-    android:versionName="5.04-test" >
+    android:versionCode="294"
+    android:versionName="5.14-test" >
 
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="23"
+        android:targetSdkVersion="25"
         tools:ignore="OldTargetApi" />
 
     <!-- normal permissions -->
@@ -85,6 +85,10 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity-alias>
 
         <activity

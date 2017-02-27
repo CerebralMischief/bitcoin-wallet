@@ -25,10 +25,13 @@ import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.params.TestNet3Params;
 import org.bitcoinj.utils.MonetaryFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.io.BaseEncoding;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
 import de.schildbach.wallet_test.R;
 
@@ -85,16 +88,13 @@ public final class Constants {
 
         /** Filename of the fees files. */
         public static final String FEES_FILENAME = "fees" + FILENAME_NETWORK_SUFFIX + ".txt";
+
+        /** Filename of the file containing Electrum servers. */
+        public static final String ELECTRUM_SERVERS_FILENAME = "electrum-servers.txt";
     }
 
     /** Maximum size of backups. Files larger will be rejected. */
     public static final long BACKUP_MAX_CHARS = 10000000;
-
-    private static final HttpUrl BITEASY_API_URL_PROD = HttpUrl.parse("https://api.biteasy.com/v2/btc/mainnet/");
-    private static final HttpUrl BITEASY_API_URL_TEST = HttpUrl.parse("https://api.biteasy.com/v2/btc/testnet/");
-    /** Base URL for blockchain API. */
-    public static final HttpUrl BITEASY_API_URL = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET)
-            ? BITEASY_API_URL_PROD : BITEASY_API_URL_TEST;
 
     /** Currency code for the wallet name resolver. */
     public static final String WALLET_NAME_CURRENCY_CODE = NETWORK_PARAMETERS.getId()
@@ -122,7 +122,7 @@ public final class Constants {
 
     /** Donation address for tip/donate action. */
     public static final String DONATION_ADDRESS = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET)
-            ? "1Hf8g3XZnDKdCy6FDQt1DrcWz3GeiYLDRS" : null;
+            ? "12mUha97duRvQnkJUnvf8GcNDi11gqo8Mi" : null;
 
     /** Recipient e-mail address for reports. */
     public static final String REPORT_EMAIL = "bitcoin.wallet.developers@gmail.com";
@@ -166,7 +166,7 @@ public final class Constants {
     public static final boolean BUG_OPENSSL_HEARTBLEED = Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN
             && Build.VERSION.RELEASE.startsWith("4.1.1");
 
-    public static final int MEMORY_CLASS_LOWEND = 48;
+    public static final int MEMORY_CLASS_LOWEND = 64;
 
     public static final int NOTIFICATION_ID_CONNECTED = 0;
     public static final int NOTIFICATION_ID_COINS_RECEIVED = 1;
@@ -174,6 +174,13 @@ public final class Constants {
 
     /** Desired number of scrypt iterations for deriving the spending PIN */
     public static final int SCRYPT_ITERATIONS_TARGET = 65536;
+    public static final int SCRYPT_ITERATIONS_TARGET_LOWRAM = 32768;
+
+    /** Default ports for Electrum servers */
+    public static final int ELECTRUM_SERVER_DEFAULT_PORT_TCP = NETWORK_PARAMETERS.getId()
+            .equals(NetworkParameters.ID_MAINNET) ? 50001 : 51001;
+    public static final int ELECTRUM_SERVER_DEFAULT_PORT_TLS = NETWORK_PARAMETERS.getId()
+            .equals(NetworkParameters.ID_MAINNET) ? 50002 : 51002;
 
     /** Shared HTTP client, can reuse connections */
     public static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
@@ -183,5 +190,17 @@ public final class Constants {
         HTTP_CLIENT.setConnectTimeout(15, TimeUnit.SECONDS);
         HTTP_CLIENT.setWriteTimeout(15, TimeUnit.SECONDS);
         HTTP_CLIENT.setReadTimeout(15, TimeUnit.SECONDS);
+
+        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(
+                new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(final String message) {
+                        log.debug(message);
+                    }
+                });
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        HTTP_CLIENT.interceptors().add(loggingInterceptor);
     }
+
+    private static final Logger log = LoggerFactory.getLogger(Constants.class);
 }

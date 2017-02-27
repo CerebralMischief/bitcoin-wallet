@@ -60,7 +60,6 @@ import de.schildbach.wallet_test.R;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -79,13 +78,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -106,7 +105,6 @@ public final class WalletActivity extends AbstractWalletActivity
     private WalletApplication application;
     private Configuration config;
     private Wallet wallet;
-    private ActivityManager activityManager;
 
     private Handler handler = new Handler();
 
@@ -121,12 +119,26 @@ public final class WalletActivity extends AbstractWalletActivity
         application = getWalletApplication();
         config = application.getConfiguration();
         wallet = application.getWallet();
-        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
         setContentView(R.layout.wallet_content);
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
+            final View contentView = findViewById(android.R.id.content);
+            final View slideInLeftView = contentView.findViewWithTag("slide_in_left");
+            if (slideInLeftView != null)
+                slideInLeftView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_left));
+            final View slideInRightView = contentView.findViewWithTag("slide_in_right");
+            if (slideInRightView != null)
+                slideInRightView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
+            final View slideInTopView = contentView.findViewWithTag("slide_in_top");
+            if (slideInTopView != null)
+                slideInTopView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_top));
+            final View slideInBottomView = contentView.findViewWithTag("slide_in_bottom");
+            if (slideInBottomView != null)
+                slideInBottomView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom));
+
             checkAlerts();
+        }
 
         config.touchLastUsed();
 
@@ -253,7 +265,6 @@ public final class WalletActivity extends AbstractWalletActivity
         menu.findItem(R.id.wallet_options_backup_wallet)
                 .setEnabled(Environment.MEDIA_MOUNTED.equals(externalStorageState));
         final MenuItem encryptKeysOption = menu.findItem(R.id.wallet_options_encrypt_keys);
-        encryptKeysOption.setVisible(wallet.isEncrypted() || !ActivityManagerCompat.isLowRamDevice(activityManager));
         encryptKeysOption.setTitle(wallet.isEncrypted() ? R.string.wallet_options_encrypt_keys_change
                 : R.string.wallet_options_encrypt_keys_set);
 
@@ -311,6 +322,10 @@ public final class WalletActivity extends AbstractWalletActivity
             HelpDialogFragment.page(getFragmentManager(), R.string.help_safety);
             return true;
 
+        case R.id.wallet_options_report_issue:
+            handleReportIssue();
+            return true;
+
         case R.id.wallet_options_help:
             HelpDialogFragment.page(getFragmentManager(), R.string.help_wallet);
             return true;
@@ -351,6 +366,36 @@ public final class WalletActivity extends AbstractWalletActivity
 
     public void handleEncryptKeys() {
         EncryptKeysDialogFragment.show(getFragmentManager());
+    }
+
+    private void handleReportIssue() {
+        final ReportIssueDialogBuilder dialog = new ReportIssueDialogBuilder(this,
+                R.string.report_issue_dialog_title_issue, R.string.report_issue_dialog_message_issue) {
+            @Override
+            protected CharSequence subject() {
+                return Constants.REPORT_SUBJECT_ISSUE + " " + application.packageInfo().versionName;
+            }
+
+            @Override
+            protected CharSequence collectApplicationInfo() throws IOException {
+                final StringBuilder applicationInfo = new StringBuilder();
+                CrashReporter.appendApplicationInfo(applicationInfo, application);
+                return applicationInfo;
+            }
+
+            @Override
+            protected CharSequence collectDeviceInfo() throws IOException {
+                final StringBuilder deviceInfo = new StringBuilder();
+                CrashReporter.appendDeviceInfo(deviceInfo, WalletActivity.this);
+                return deviceInfo;
+            }
+
+            @Override
+            protected CharSequence collectWalletDump() {
+                return application.getWallet().toString(false, true, true, null);
+            }
+        };
+        dialog.show();
     }
 
     @Override
@@ -482,9 +527,9 @@ public final class WalletActivity extends AbstractWalletActivity
         final List<File> files = new LinkedList<File>();
 
         // external storage
-        if (Constants.Files.EXTERNAL_WALLET_BACKUP_DIR.exists()
-                && Constants.Files.EXTERNAL_WALLET_BACKUP_DIR.isDirectory())
-            for (final File file : Constants.Files.EXTERNAL_WALLET_BACKUP_DIR.listFiles())
+        final File[] externalFiles = Constants.Files.EXTERNAL_WALLET_BACKUP_DIR.listFiles();
+        if (externalFiles != null)
+            for (final File file : externalFiles)
                 if (Crypto.OPENSSL_FILE_FILTER.accept(file))
                     files.add(file);
 
@@ -582,6 +627,8 @@ public final class WalletActivity extends AbstractWalletActivity
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (!isFinishing())
+                                    return;
                                 final Bundle args = new Bundle();
                                 args.putLong("diff_minutes", diffMinutes);
                                 showDialog(DIALOG_TIMESKEW_ALERT, args);
@@ -596,6 +643,8 @@ public final class WalletActivity extends AbstractWalletActivity
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (isFinishing())
+                                return;
                             showDialog(DIALOG_VERSION_ALERT);
                         }
                     });
@@ -749,7 +798,7 @@ public final class WalletActivity extends AbstractWalletActivity
             });
             dialog.show();
 
-            log.info("problem restoring wallet", x);
+            log.info("problem restoring wallet: " + file, x);
         }
     }
 
@@ -772,7 +821,7 @@ public final class WalletActivity extends AbstractWalletActivity
             });
             dialog.show();
 
-            log.info("problem restoring wallet", x);
+            log.info("problem restoring unencrypted wallet: " + file, x);
         } finally {
             if (is != null) {
                 try {
@@ -803,7 +852,7 @@ public final class WalletActivity extends AbstractWalletActivity
             });
             dialog.show();
 
-            log.info("problem restoring private keys", x);
+            log.info("problem restoring private keys: " + file, x);
         } finally {
             if (is != null) {
                 try {

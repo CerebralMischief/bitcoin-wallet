@@ -161,14 +161,13 @@ public class CrashReporter {
                 + (ActivityManagerCompat.isLowRamDevice(activityManager) ? " (low RAM device)" : "") + "\n");
         report.append("Storage Encryption Status: " + devicePolicyManager.getStorageEncryptionStatus() + "\n");
         report.append("Bluetooth MAC: " + bluetoothMac() + "\n");
+        report.append("Runtime: ").append(System.getProperty("java.vm.name")).append(" ")
+                .append(System.getProperty("java.vm.version")).append("\n");
     }
 
     private static String bluetoothMac() {
         try {
-            final BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-            if (adapter == null)
-                return null;
-            return adapter.getAddress();
+            return Bluetooth.getAddress(BluetoothAdapter.getDefaultAdapter());
         } catch (final Exception x) {
             return x.getMessage();
         }
@@ -264,8 +263,9 @@ public class CrashReporter {
         formatter.format(Locale.US, "%tF %tT %8d  %s\n", calendar, calendar, file.length(), file.getName());
         formatter.close();
 
-        if (file.isDirectory())
-            for (final File f : file.listFiles())
+        final File[] files = file.listFiles();
+        if (files != null)
+            for (final File f : files)
                 appendDir(report, f, indent + 1);
     }
 

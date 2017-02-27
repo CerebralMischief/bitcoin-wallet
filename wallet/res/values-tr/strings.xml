@@ -23,7 +23,6 @@
   <string name="exchange_rates_fragment_balance">bakiye</string>
   <string name="exchange_rates_fragment_source">%s unsurundan fiyat</string>
   <string name="exchange_rates_options_search">Değişim kuru ara</string>
-  <string name="exchange_rates_context_set_as_default_title">Varsayılan döviz olarak ayarla</string>
   <string name="wallet_transactions_fragment_empty_text_received">Şimdiye kadar hiçbir Bitcoin alınmadı</string>
   <string name="wallet_transactions_fragment_empty_text_sent">Şimdiye kadar hiçbir Bitcoin gönderilmedi</string>
   <string name="wallet_transactions_fragment_empty_text_howto">Nasıl Bitcoin elde edilir?\n\nGeleneksel para ile satın alabilir,\nhizmet veya mal satabilir ya da\nçalışarak kazanabilirsiniz.</string>
@@ -93,7 +92,9 @@
   <string name="send_coins_options_fee_category_priority">Öncelikli</string>
   <string name="send_coins_options_empty">Boş cüzdan</string>
   <string name="raise_fee_dialog_title">Şebeke ücretini arttır</string>
-  <string name="raise_fee_dialog_message">Bu ödemenin ücretini %s değerinde arttırmak istiyor musunuz? Bu, ödemenin teyidinin daha çabuk oluşmasını sağlar.</string>
+  <string name="raise_fee_dialog_message">Bu ödemenin ağ ücretini %s olarak artırmak istiyor musunuz? Bu, ödeme teyidinin daha çabuk oluşmasını sağlayacaktır.</string>
+  <string name="raise_fee_dialog_determining_fee">Ağ ücreti belirleniyor…</string>
+  <string name="raise_fee_dialog_cant_raise">Bu ödemenin ağ ücreti artırılamaz.</string>
   <string name="raise_fee_dialog_state_decrypting">Şifre çözülüyor…</string>
   <string name="raise_fee_dialog_state_done">Tamamlandı.</string>
   <string name="raise_fee_dialog_button_raise">Arttır</string>
@@ -153,7 +154,7 @@
   <string name="edit_address_book_entry_dialog_button_edit">Kaydet</string>
   <string name="transaction_row_fee">Şebeke ücreti</string>
   <string name="transaction_row_message_purpose_key_rotation">Bu muamele cüzdanınızın çalınmaya karşı korunmasını güçlendirir. &lt;u&gt;Daha fazla bilgi.&lt;/u&gt;</string>
-  <string name="transaction_row_message_purpose_raise_fee">Bu muamele önceki bir ödemenin şebeke ücretini arttırır. </string>
+  <string name="transaction_row_message_purpose_raise_fee">Bu muamele önceki bir ödemenin şebeke ücretini arttırır.</string>
   <string name="transaction_row_message_own_unbroadcasted">Bu ödeme henüz aktarılmamıştır.</string>
   <string name="transaction_row_message_received_direct">Bu ödeme doğrudan alındı. Asla harcanamayacak olması riski vardır.</string>
   <string name="transaction_row_message_received_unconfirmed_delayed">Bu ödemenin teyidi muhtemelen Bitcoin şebekesindeki aşırı yükten dolayı gecikmiştir.</string>
@@ -180,7 +181,7 @@
   <string name="import_keys_dialog_file_security_encrypted">parola şifrelendi</string>
   <string name="import_keys_dialog_file_security_unencrypted">şifresiz</string>
   <string name="import_keys_dialog_file_security_external">harici depolama</string>
-  <string name="import_keys_dialog_file_security_internal">uygulama-özel depolama </string>
+  <string name="import_keys_dialog_file_security_internal">uygulama-özel depolama</string>
   <string name="import_keys_dialog_file_created_automatic">otomatik yedekleme %s</string>
   <string name="import_keys_dialog_file_created_manual">%s elle yedeklendi</string>
   <string name="import_keys_dialog_button_import">Geri al</string>
@@ -258,7 +259,6 @@
   <string name="preferences_remind_balance_title">Bakiye hatırlacısı</string>
   <string name="preferences_remind_balance_summary">İki hafta kullanılmaz ise, uygulama cüzdanda hâlâ Bitcoin bulunduğunu bildirecektir.</string>
   <string name="preferences_report_issue_title">Sorun rapor et</string>
-  <string name="preferences_report_issue_summary">Problem hakkında bilgi topla ve raporu geliştiricilere e-posta ile yolla.</string>
   <string name="preferences_initiate_reset_title">Blok zincirini sıfırla</string>
   <string name="preferences_initiate_reset_summary">Muameleleri, blok zincirini ve bakiyeyi sıfırla. Normale dönüş belli bir süre alacaktır.</string>
   <string name="preferences_initiate_reset_dialog_message">Blok zincirini sıfırlayıp tekrar eşleştirmek istiyor musunuz?\n\nBu geçici olarak bakiyenizin değerini sıfırlayacak ve muameleleri silecektir. Bu iki unsur blok zincirinin eşleşmesi ilerledikçe normale dönecektir.</string>

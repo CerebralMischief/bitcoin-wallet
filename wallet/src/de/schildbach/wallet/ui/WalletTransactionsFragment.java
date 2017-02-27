@@ -17,6 +17,7 @@
 
 package de.schildbach.wallet.ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +29,7 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.annotation.Nullable;
 
 import org.bitcoinj.core.Address;
+import org.bitcoinj.core.ScriptException;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.Transaction.Purpose;
 import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
@@ -43,6 +45,7 @@ import de.schildbach.wallet.data.AddressBookProvider;
 import de.schildbach.wallet.ui.TransactionsAdapter.Warning;
 import de.schildbach.wallet.ui.send.RaiseFeeDialogFragment;
 import de.schildbach.wallet.util.BitmapFragment;
+import de.schildbach.wallet.util.CrashReporter;
 import de.schildbach.wallet.util.Qr;
 import de.schildbach.wallet.util.ThrottlingWalletChangeListener;
 import de.schildbach.wallet.util.WalletUtils;
@@ -310,16 +313,20 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
                     handleShowQr();
                     return true;
 
+                case R.id.wallet_transactions_context_raise_fee:
+                    RaiseFeeDialogFragment.show(getFragmentManager(), tx);
+                    return true;
+
+                case R.id.wallet_transactions_context_report_issue:
+                    handleReportIssue(tx);
+                    return true;
+
                 case R.id.wallet_transactions_context_browse:
                     if (!txRotation)
                         startActivity(new Intent(Intent.ACTION_VIEW,
                                 Uri.withAppendedPath(config.getBlockExplorer(), "tx/" + tx.getHashAsString())));
                     else
                         startActivity(new Intent(Intent.ACTION_VIEW, KEY_ROTATION_URI));
-                    return true;
-
-                case R.id.wallet_transactions_context_raise_fee:
-                    RaiseFeeDialogFragment.show(getFragmentManager(), tx);
                     return true;
                 }
 
@@ -334,6 +341,51 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
                 final int size = getResources().getDimensionPixelSize(R.dimen.bitmap_dialog_qr_size);
                 final Bitmap qrCodeBitmap = Qr.bitmap(Qr.encodeCompressBinary(txSerialized), size);
                 BitmapFragment.show(getFragmentManager(), qrCodeBitmap);
+            }
+
+            private void handleReportIssue(final Transaction tx) {
+                final ReportIssueDialogBuilder dialog = new ReportIssueDialogBuilder(activity,
+                        R.string.report_issue_dialog_title_transaction, R.string.report_issue_dialog_message_issue) {
+                    @Override
+                    protected CharSequence subject() {
+                        return Constants.REPORT_SUBJECT_ISSUE + " " + application.packageInfo().versionName;
+                    }
+
+                    @Override
+                    protected CharSequence collectApplicationInfo() throws IOException {
+                        final StringBuilder applicationInfo = new StringBuilder();
+                        CrashReporter.appendApplicationInfo(applicationInfo, application);
+                        return applicationInfo;
+                    }
+
+                    @Override
+                    protected CharSequence collectDeviceInfo() throws IOException {
+                        final StringBuilder deviceInfo = new StringBuilder();
+                        CrashReporter.appendDeviceInfo(deviceInfo, activity);
+                        return deviceInfo;
+                    }
+
+                    @Override
+                    protected CharSequence collectContextualData() {
+                        final StringBuilder contextualData = new StringBuilder();
+                        try {
+                            contextualData.append(tx.getValue(wallet).toFriendlyString()).append(" total value");
+                        } catch (final ScriptException x) {
+                            contextualData.append(x.getMessage());
+                        }
+                        contextualData.append('\n');
+                        if (tx.hasConfidence())
+                            contextualData.append("  confidence: ").append(tx.getConfidence()).append('\n');
+                        contextualData.append(tx.toString());
+                        return contextualData;
+                    }
+
+                    @Override
+                    protected CharSequence collectWalletDump() {
+                        return application.getWallet().toString(false, true, true, null);
+                    }
+                };
+                dialog.show();
             }
         });
         popupMenu.show();
